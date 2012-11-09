@@ -1,0 +1,19 @@
+{
+  "name": "nko3-go-horse-go",
+  "version": "0.0.0",
+  "description": "Go Horse Go",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:nko3/go-horse-go.git"
+  },
+  "dependencies": {
+  },
+  "engines": {
+    "node": "0.8.x"
+  },
+  "subdomain": "go-horse-go.nko3"
+}
