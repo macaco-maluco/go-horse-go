@@ -1,0 +1,8 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#canvas-uuid-1 {
+  background:url('/images/universe.jpg')
+}
