@@ -21,8 +21,8 @@ Physics.prototype = {
       }).value();
       that.world.projectile.fx = that.world.projectile.fx + planetsForce.fx;
       that.world.projectile.fy = that.world.projectile.fy + planetsForce.fy;
-      that.world.projectile.x = that.world.projectile.x + that.world.projectile.fx;
-      that.world.projectile.y = that.world.projectile.y + that.world.projectile.fy;
+      that.world.projectile.x = that.world.projectile.x + that.world.projectile.fx / that.world.projectile.mass;
+      that.world.projectile.y = that.world.projectile.y + that.world.projectile.fy / that.world.projectile.mass;
     }
   },
 
@@ -31,7 +31,7 @@ Physics.prototype = {
         dy = planet.y - projectile.y,
         d = Math.sqrt(dx * dx + dy * dy);
 
-    var force = (1 * planet.mass * 1) / (d * d);
+    var force = (1e-14 * planet.mass * projectile.mass) / (d * d);
 
     return { fx: force * dx / d, fy: force * dy / d };
   },
@@ -43,7 +43,8 @@ Physics.prototype = {
       x: x,
       y: y,
       fx: fx || 0,
-      fy: fy || 0
+      fy: fy || 0,
+      mass: 10
     };
   }
 };
