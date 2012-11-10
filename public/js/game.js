@@ -53,9 +53,9 @@
       that.physics.update(that.world);
     },
 
-    fireProjectile: function (x, y, force, angle) {
+    fireProjectile: function (x, y, fx, fy) {
       var that = this;
-      that.physics.fireProjectile(x, y, force, angle);
+      that.physics.fireProjectile(x, y, fx, fy);
     }
   };
 
@@ -65,6 +65,6 @@
   window.onload = function() {
     var game = new ghg.Game();
     game.boot();
-    game.fireProjectile(300, 300, 10, 10);
+    game.fireProjectile(300, 300, 0, 3);
   };
 }(window));

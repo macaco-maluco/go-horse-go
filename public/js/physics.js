@@ -19,9 +19,10 @@ Physics.prototype = {
           fy: (f1.fy + f2.fy)
         };
       }).value();
-
-      that.world.projectile.x = that.world.projectile.x + planetsForce.fx;
-      that.world.projectile.y = that.world.projectile.y + planetsForce.fy;
+      that.world.projectile.fx = that.world.projectile.fx + planetsForce.fx;
+      that.world.projectile.fy = that.world.projectile.fy + planetsForce.fy;
+      that.world.projectile.x = that.world.projectile.x + that.world.projectile.fx;
+      that.world.projectile.y = that.world.projectile.y + that.world.projectile.fy;
     }
   },
 
@@ -35,14 +36,14 @@ Physics.prototype = {
     return { fx: force * dx / d, fy: force * dy / d };
   },
 
-  fireProjectile: function (x, y, force, angle) {
+  fireProjectile: function (x, y, fx, fy) {
     var that = this;
 
     that.world.projectile = {
       x: x,
       y: y,
-      force: force,
-      angle: angle
+      fx: fx || 0,
+      fy: fy || 0
     };
   }
 };
