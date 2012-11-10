@@ -20,19 +20,18 @@ Renderer.prototype = {
     var that = this;
 
     _(that.world.planets).each(function (planet) {
-      var circle = new Circle(planet.radius,
-        {
-          id: '123123123',
-          x: planet.x,
-          y: planet.y,
-          stroke: 'red',
-          strokeWidth: 2,
-          endAngle: Math.PI*2
-        }
-      );
+      var img = new Image();
+      img.src = 'images/planet' + Math.floor((Math.random()*7)+1) + '.png';
+      var node = new ImageNode(img, {
+        dWidth: planet.radius * 2,
+        dHeight: planet.radius * 2,
+        x: planet.x - planet.radius,
+        y: planet.y - planet.radius
+      });
 
-      that.renderObjects.push(circle);
-      that.canvas.append(circle);
+
+      that.renderObjects.push(node);
+      that.canvas.append(node);
     });
   },
 
