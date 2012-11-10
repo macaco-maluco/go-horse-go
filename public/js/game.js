@@ -1,37 +1,107 @@
 (function(window, undefined) {
 
-window.onload = function()
-{
-  var game = {};
-  var canvas = new Canvas(document.body, 600, 400);
 
-  var circle1 = new Circle(100,
-    {
-      id: 'myCircle1',
-      x: canvas.width / 3,
-      y: canvas.height / 2,
-      stroke: 'black',
-      strokeWidth: 20,
-      endAngle: Math.PI*2
+
+  var ghg = {};
+
+  var Game = function () {
+
+  }
+
+  Game.prototype = {
+    boot: function () {
+      this.createWorld();
+      this.createPhysics();
+      this.createRenderer();
+    },
+
+    createWorld: function () {
+      this.world = {
+        planets: [
+          {
+            x: 10,
+            y: 20,
+            radius: 50
+          }
+        ]
+      };
+    },
+
+    createPhysics: function () {
+      var that = this;
+      that.physics = {
+        update: function(world) {
+          if (world.projectile) {
+            world.projectile.x = world.projectile.x + 1
+          }
+        }
+      };
+    },
+
+    createRenderer: function () {
+      var that = this;
+
+      that.renderObjects = [];
+      that.canvas = new Canvas(document.body, 600, 400);
+
+      _(that.world.planets).each(function (planet) {
+        var circle = new Circle(planet.radius,
+          {
+            id: '123123123',
+            x: planet.x,
+            y: planet.y,
+            stroke: 'red',
+            strokeWidth: 2,
+            endAngle: Math.PI*2
+          }
+        );
+
+        that.renderObjects.push(circle);
+        that.canvas.append(circle);
+      })
+
+      that.canvas.addFrameListener(function (t, dt) {
+        that.gameLoop(t, dt);
+      })
+    },
+
+    gameLoop: function (t, dt) {
+      var that = this;
+      that.physics.update(that.world);
+
+      if (that.projectilesRenderObject) {
+        that.projectilesRenderObject.x = that.world.projectile.x;
+      }
+    },
+
+    fireProjectile: function (x, y, force, angle) {
+      var that = this;
+
+      that.world.projectile = {
+        x: x, y: y, force: force, angle: angle
+      };
+
+      that.projectilesRenderObject = new Circle(2,
+        {
+          id: '435436544',
+          x: x,
+          y: y,
+          stroke: 'red',
+          strokeWidth: 2,
+          endAngle: Math.PI*2
+        }
+      );
+
+      that.canvas.append(that.projectilesRenderObject);
     }
-  );
+  };
 
-  canvas.append(circle1);
+  ghg.Game = Game;
+  window.ghg = ghg;
 
-  var circle2 = new Circle(100,
-    {
-      id: 'myCircle2',
-      x: canvas.width / 3 * 2,
-      y: canvas.height / 2,
-      stroke: 'red',
-      strokeWidth: 20,
-      endAngle: Math.PI*2
-    }
-  );
-
-  canvas.append(circle2);
-
-  game.canvas = canvas;
-  window.game = game;
-};
+  window.onload = function() {
+    var game = new ghg.Game();
+    game.boot();
+    game.fireProjectile(5, 5, 10, 10);
+  };
 }(window));
