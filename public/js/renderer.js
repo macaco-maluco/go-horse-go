@@ -7,6 +7,8 @@ var Renderer = function (options) {
   that.players = [];
   that.onRender = options.onRender;
   that.world = options.world;
+  that.shipColor = 0;
+
 
   that.canvas = new Canvas(document.body, window.innerWidth, window.innerHeight);
   that.canvas.addFrameListener(function (t, dt) {
@@ -42,7 +44,7 @@ Renderer.prototype = {
 
     _(that.world.players).each(function (player) {
       var img = new Image();
-      img.src = 'images/ship' + ((shipColor++ % 4)+1) + '.png';
+      img.src = 'images/ship' + ((that.shipColor++ % 4)+1) + '.png';
       var node = new ImageNode(img, {
         dWidth: 40,
         dHeight: 40,
@@ -103,10 +105,9 @@ Renderer.prototype = {
     var renderer = that.remotePlayersRendererObjects[playerId];
 
     if(!renderer) {
-      var shipColor = 0;
 
       var img = new Image();
-      img.src = 'images/ship' + ((shipColor++ % 4)+1) + '.png';
+      img.src = 'images/ship' + ((that.shipColor++ % 4)+1) + '.png';
       renderer = new ImageNode(img, {
         dWidth: 40,
         dHeight: 40,
