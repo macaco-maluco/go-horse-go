@@ -7,12 +7,17 @@ var Remote = function(options) {
   that.socket.on('position', function(data) {
     that.world.remotePlayers[data.id] = data;
   });
+
+  that.sendPlayerPositionThrottled = _.throttle(function (player) {
+    var that = this;
+    that.socket.emit('position', player);
+  }, 200);
 };
 
 Remote.prototype = {
   sendPlayerPosition: function (player) {
     var that = this;
-    that.socket.emit('position', player);
+    that.sendPlayerPositionThrottled(player);
   }
 }
 
