@@ -58,6 +58,7 @@ Renderer.prototype = {
 
     if (that.projectilesRenderObject) {
       that.projectilesRenderObject.x = that.world.projectile.x;
+      that.projectilesRenderObject.y = that.world.projectile.y;
     }
   }
 };

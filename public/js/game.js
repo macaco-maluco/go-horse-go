@@ -16,9 +16,17 @@
       this.world = {
         planets: [
           {
-            x: 10,
-            y: 20,
-            radius: 50
+            x: 0,
+            y: 300,
+            radius: 50,
+            mass: 1e5
+          },
+
+          {
+            x: 600,
+            y: 300,
+            radius: 50,
+            mass: 1e5
           }
         ]
       };
@@ -57,6 +65,6 @@
   window.onload = function() {
     var game = new ghg.Game();
     game.boot();
-    game.fireProjectile(5, 5, 10, 10);
+    game.fireProjectile(300, 300, 10, 10);
   };
 }(window));

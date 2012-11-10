@@ -11,8 +11,28 @@ Physics.prototype = {
     var that = this;
 
     if (that.world.projectile) {
-      that.world.projectile.x = that.world.projectile.x + 1
+      var planetsForce = _(that.world.planets).chain().map(function (planet){
+        return that.getForceVector(planet, that.world.projectile);
+      }).reduce(function (f1, f2) {
+        return {
+          fx: (f1.fx + f2.fx),
+          fy: (f1.fy + f2.fy)
+        };
+      }).value();
+
+      that.world.projectile.x = that.world.projectile.x + planetsForce.fx;
+      that.world.projectile.y = that.world.projectile.y + planetsForce.fy;
     }
+  },
+
+  getForceVector: function(planet, projectile) {
+    var dx = planet.x - projectile.x,
+        dy = planet.y - projectile.y,
+        d = Math.sqrt(dx * dx + dy * dy);
+
+    var force = (1 * planet.mass * 1) / (d * d);
+
+    return { fx: force * dx / d, fy: force * dy / d };
   },
 
   fireProjectile: function (x, y, force, angle) {
