@@ -1,7 +1,4 @@
 (function(window, undefined) {
-
-
-
   var ghg = {};
 
   var Game = function () {
@@ -29,70 +26,28 @@
 
     createPhysics: function () {
       var that = this;
-      that.physics = {
-        update: function(world) {
-          if (world.projectile) {
-            world.projectile.x = world.projectile.x + 1
-          }
-        }
-      };
+      that.physics = new ghg.Physics({ world: that.world });
     },
 
     createRenderer: function () {
       var that = this;
 
-      that.renderObjects = [];
-      that.canvas = new Canvas(document.body, 600, 400);
-
-      _(that.world.planets).each(function (planet) {
-        var circle = new Circle(planet.radius,
-          {
-            id: '123123123',
-            x: planet.x,
-            y: planet.y,
-            stroke: 'red',
-            strokeWidth: 2,
-            endAngle: Math.PI*2
-          }
-        );
-
-        that.renderObjects.push(circle);
-        that.canvas.append(circle);
-      })
-
-      that.canvas.addFrameListener(function (t, dt) {
-        that.gameLoop(t, dt);
-      })
+      that.renderer = new ghg.Renderer({
+        onRender: function (t, dt) {
+          that.gameLoop(t, dt);
+        },
+        world: that.world
+      });
     },
 
     gameLoop: function (t, dt) {
       var that = this;
       that.physics.update(that.world);
-
-      if (that.projectilesRenderObject) {
-        that.projectilesRenderObject.x = that.world.projectile.x;
-      }
     },
 
     fireProjectile: function (x, y, force, angle) {
       var that = this;
-
-      that.world.projectile = {
-        x: x, y: y, force: force, angle: angle
-      };
-
-      that.projectilesRenderObject = new Circle(2,
-        {
-          id: '435436544',
-          x: x,
-          y: y,
-          stroke: 'red',
-          strokeWidth: 2,
-          endAngle: Math.PI*2
-        }
-      );
-
-      that.canvas.append(that.projectilesRenderObject);
+      that.physics.fireProjectile(x, y, force, angle);
     }
   };
 
