@@ -8,21 +8,22 @@ var Physics = function (options) {
 
 Physics.prototype = {
   update: function (t, dt) {
-    var that = this;
+    var that = this,
+        projectile = that.world.projectile;
 
-    if (that.world.projectile) {
+    if (projectile) {
       var planetsForce = _(that.world.planets).chain().map(function (planet){
-        return that.getForceVector(planet, that.world.projectile);
+        return that.getForceVector(planet, projectile);
       }).reduce(function (f1, f2) {
         return {
           fx: (f1.fx + f2.fx),
           fy: (f1.fy + f2.fy)
         };
       }).value();
-      that.world.projectile.fx = that.world.projectile.fx + planetsForce.fx;
-      that.world.projectile.fy = that.world.projectile.fy + planetsForce.fy;
-      that.world.projectile.x = that.world.projectile.x + that.world.projectile.fx / that.world.projectile.mass;
-      that.world.projectile.y = that.world.projectile.y + that.world.projectile.fy / that.world.projectile.mass;
+      projectile.fx = projectile.fx + planetsForce.fx;
+      projectile.fy = projectile.fy + planetsForce.fy;
+      projectile.x = projectile.x + projectile.fx / projectile.mass;
+      projectile.y = projectile.y + projectile.fy / projectile.mass;
     }
   },
 
