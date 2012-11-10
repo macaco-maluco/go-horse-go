@@ -1,10 +1,11 @@
 (function(ghg) {
 
-var Remote = function() {
+var Remote = function(options) {
   var that = this;
-  that.socket = io.connect('http://localhost:8000');
+  that.world = options.world;
+  that.socket = io.connect('http://192.168.1.9:8000');
   that.socket.on('position', function(data) {
-    console.log(data);
+    that.world.remotePlayers[data.id] = data;
   });
 };
 

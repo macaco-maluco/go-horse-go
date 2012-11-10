@@ -37,7 +37,8 @@
           speed: 0,
           turningSpeed: 0,
           angle: 0
-        }
+        },
+        remotePlayers: {}
       };
     },
 
@@ -89,7 +90,7 @@
 
     createRemote: function() {
       var that = this;
-      that.remote = new ghg.Remote();
+      that.remote = new ghg.Remote({ world: that.world });
     },
 
     gameLoop: function (t, dt) {

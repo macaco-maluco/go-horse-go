@@ -2,6 +2,7 @@
 
 var Renderer = function (options) {
   var that = this;
+  that.remotePlayersRendererObjects = [];
   that.renderObjects = [];
   that.players = [];
   that.onRender = options.onRender;
@@ -86,6 +87,41 @@ Renderer.prototype = {
       player.y = that.world.player.y;
       player.rotation = that.world.player.angle;
     });
+
+    _(that.world.remotePlayers).each(function(player){
+      var renderer = that.getRemotePlayerRenderer(player.id);
+
+      renderer.x = player.x;
+      renderer.y = player.y;
+      renderer.rotation = player.angle;
+    });
+  },
+
+  getRemotePlayerRenderer: function (playerId) {
+    var that = this;
+
+    var renderer = that.remotePlayersRendererObjects[playerId];
+
+    if(!renderer) {
+      var shipColor = 0;
+
+      var img = new Image();
+      img.src = 'images/ship' + ((shipColor++ % 4)+1) + '.png';
+      renderer = new ImageNode(img, {
+        dWidth: 40,
+        dHeight: 40,
+        dX: -20,
+        dY: -20,
+        x: 0,
+        y: 0
+      });
+
+
+      that.canvas.append(renderer);
+      that.remotePlayersRendererObjects[playerId] = renderer;
+    }
+
+    return renderer;
   }
 };
 
