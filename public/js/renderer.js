@@ -6,7 +6,7 @@ var Renderer = function (options) {
   that.onRender = options.onRender;
   that.world = options.world;
 
-  that.canvas = new Canvas(document.body, 2000, 2000);
+  that.canvas = new Canvas(document.body, window.innerWidth, window.innerHeight);
   that.canvas.addFrameListener(function (t, dt) {
     that.onRender(t, dt);
     that.update(t, dt);
