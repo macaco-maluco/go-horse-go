@@ -45,6 +45,8 @@ Renderer.prototype = {
       var node = new ImageNode(img, {
         dWidth: 40,
         dHeight: 40,
+        dX: -20,
+        dY: -20,
         x: player.x,
         y: player.y
       });
@@ -82,6 +84,7 @@ Renderer.prototype = {
     _(that.players).each(function(player){
       player.x = that.world.player.x;
       player.y = that.world.player.y;
+      player.rotation = that.world.player.angle;
     });
   }
 };

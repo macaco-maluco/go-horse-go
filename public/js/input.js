@@ -8,7 +8,7 @@
         that.trigger('start-moving-forward');
       },
       function () {
-        that.trigger('stop-moving-forward');
+        that.trigger('stop-moving');
       }
     );
 
@@ -17,7 +17,7 @@
         that.trigger('start-moving-backward');
       },
       function () {
-        that.trigger('stop-moving-backward');
+        that.trigger('stop-moving');
       }
     );
 
@@ -26,7 +26,7 @@
         that.trigger('start-turning-left');
       },
       function () {
-        that.trigger('stop-turning-left');
+        that.trigger('stop-turning');
       }
     );
 
@@ -35,7 +35,7 @@
         that.trigger('start-turning-right');
       },
       function () {
-        that.trigger('stop-turning-right');
+        that.trigger('stop-turning');
       }
     );
   }

@@ -33,8 +33,9 @@
         player: {
           x: 20,
           y: 20,
-          speedX: 0,
-          speedY: 0
+          speed: 0,
+          turningSpeed: 0,
+          angle: 0
         }
       };
     },
@@ -64,32 +65,24 @@
         that.physics.startMovingFoward();
       });
 
-      that.input.on('stop-moving-forward', function () {
-        that.physics.stopMovingFoward();
-      });
-
       that.input.on('start-moving-backward', function () {
         that.physics.startMovingBackward();
       });
 
-      that.input.on('stop-moving-backward', function () {
-        that.physics.stopMovingBackward();
+      that.input.on('stop-moving', function () {
+        that.physics.stopMoving();
       });
 
       that.input.on('start-turning-left', function () {
         that.physics.startTurningLeft();
       });
 
-      that.input.on('stop-turning-left', function () {
-        that.physics.stopTurningLeft();
-      });
-
       that.input.on('start-turning-right', function () {
         that.physics.startTurningRight();
       });
 
-      that.input.on('stop-turning-right', function () {
-        that.physics.stopTurningRight();
+      that.input.on('stop-turning', function () {
+        that.physics.stopTurning();
       });    },
 
     gameLoop: function (t, dt) {

@@ -26,8 +26,10 @@ Physics.prototype = {
       projectile.y = projectile.y + projectile.fy / projectile.mass;
     }
 
-    that.world.player.x = that.world.player.x + that.world.player.speedX;
-    that.world.player.y = that.world.player.y + that.world.player.speedY;
+    that.world.player.x = that.world.player.x + -that.world.player.speed * Math.sin(that.world.player.angle);
+    that.world.player.y = that.world.player.y + that.world.player.speed * Math.cos(that.world.player.angle);
+
+    that.world.player.angle = that.world.player.angle + that.world.player.turningSpeed;
   },
 
   getForceVector: function(planet, projectile) {
@@ -55,41 +57,37 @@ Physics.prototype = {
   startMovingFoward: function () {
     var that = this;
 
-    that.world.player.speedX = 3;
-  },
-
-  stopMovingFoward: function () {
-    var that = this;
-
-    that.world.player.speedX = 0;
+    that.world.player.speed = 3;
   },
 
   startMovingBackward: function () {
     var that = this;
 
-    that.world.player.speedY = 3;
+    that.world.player.speed = -3;
   },
 
-  stopMovingBackward: function () {
+  stopMoving: function () {
     var that = this;
 
-    that.world.player.speedY = 0;
+    that.world.player.speed = 0;
   },
 
   startTurningLeft: function () {
+    var that = this;
 
-  },
-
-  stopTurningLeft: function () {
-
+    that.world.player.turningSpeed = -0.1;
   },
 
   startTurningRight: function () {
+    var that = this;
 
+    that.world.player.turningSpeed = 0.1;
   },
 
-  stopTurningRight: function () {
+  stopTurning: function () {
+    var that = this;
 
+    that.world.player.turningSpeed = 0;
   }
 
 };
