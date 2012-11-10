@@ -33,6 +33,17 @@ Renderer.prototype = {
       that.renderObjects.push(node);
       that.canvas.append(node);
     });
+
+    that.playerRenderObject = new Circle(2,
+      {
+        x: that.world.player.x,
+        y: that.world.player.y,
+        stroke: 'blue',
+        strokeWidth: 2
+      }
+    );
+
+    that.canvas.append(that.playerRenderObject);
   },
 
   update: function (t, dt) {
@@ -59,6 +70,9 @@ Renderer.prototype = {
       that.projectilesRenderObject.x = that.world.projectile.x;
       that.projectilesRenderObject.y = that.world.projectile.y;
     }
+
+    that.playerRenderObject.x = that.world.player.x;
+    that.playerRenderObject.y = that.world.player.y;
   }
 };
 

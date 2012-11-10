@@ -25,6 +25,9 @@ Physics.prototype = {
       projectile.x = projectile.x + projectile.fx / projectile.mass;
       projectile.y = projectile.y + projectile.fy / projectile.mass;
     }
+
+    that.world.player.x = that.world.player.x + that.world.player.speedX;
+    that.world.player.y = that.world.player.y + that.world.player.speedY;
   },
 
   getForceVector: function(planet, projectile) {
@@ -47,18 +50,49 @@ Physics.prototype = {
       fy: fy || 0,
       mass: 10
     };
+  },
+
+  startMovingFoward: function () {
+    var that = this;
+
+    that.world.player.speedX = 3;
+  },
+
+  stopMovingFoward: function () {
+    var that = this;
+
+    that.world.player.speedX = 0;
+  },
+
+  startMovingBackward: function () {
+    var that = this;
+
+    that.world.player.speedY = 3;
+  },
+
+  stopMovingBackward: function () {
+    var that = this;
+
+    that.world.player.speedY = 0;
+  },
+
+  startTurningLeft: function () {
+
+  },
+
+  stopTurningLeft: function () {
+
+  },
+
+  startTurningRight: function () {
+
+  },
+
+  stopTurningRight: function () {
+
   }
+
 };
-// physics.updateWorld(world);
-// physics.fireParticle(x, y, force);
-
-// canvas.onFrame(function (t, dt) {
-//   physics.update(dt);
-// })
-
-// physics.on('colision', function (obj1, obj2) {
-
-// });
 ghg.Physics = Physics;
 
 }(ghg));
