@@ -1,7 +1,24 @@
-var http = require('http');
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-}).listen(8000);
+var express = require('express')
+  , http = require('http')
+  , socketio = require('socket.io')
+  , path = require('path');
 
-console.log('Server running at http://0.0.0.0:8000/');
+ var app = express()
+  , server = http.createServer(app)
+  , io = socketio.listen(server);
+
+
+server.listen(8000);
+
+// app.get('/', function (req, res) {
+//   res.sendfile(__dirname + '/index.html');
+// });
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
