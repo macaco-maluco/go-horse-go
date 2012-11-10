@@ -11,6 +11,7 @@
       this.createPhysics();
       this.createRenderer();
       this.createInput();
+      this.createRemote();
     },
 
     createWorld: function () {
@@ -83,11 +84,18 @@
 
       that.input.on('stop-turning', function () {
         that.physics.stopTurning();
-      });    },
+      });
+    },
+
+    createRemote: function() {
+      var that = this;
+      that.remote = new ghg.Remote();
+    },
 
     gameLoop: function (t, dt) {
       var that = this;
       that.physics.update(that.world);
+      that.remote.sendPlayerPosition(that.world.player);
     },
 
     fireProjectile: function (x, y, fx, fy) {

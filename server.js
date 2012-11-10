@@ -17,8 +17,8 @@ server.listen(8000);
 app.use(express.static(path.join(__dirname, 'public')));
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
+  socket.on('position', function (data) {
     console.log(data);
+    socket.broadcast.emit('position', data);
   });
 });
