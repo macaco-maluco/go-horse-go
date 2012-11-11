@@ -13,11 +13,13 @@ var Renderer = function (options) {
   that.shipColor = 0;
 
 
-  that.canvas = new Canvas(document.body, window.innerWidth, window.innerHeight);
-  that.canvas.addFrameListener(function (t, dt) {
+  that._canvas = new Canvas(document.body, window.innerWidth, window.innerHeight);
+  that._canvas.addFrameListener(function (t, dt) {
     that.onRender(t, dt);
     that.update(t, dt);
   });
+  that.scene = new CanvasNode()
+  that._canvas.append(that.scene);
 
   that.createObjects();
 };
@@ -38,7 +40,7 @@ Renderer.prototype = {
 
 
       that.renderObjects.push(node);
-      that.canvas.append(node);
+      that.scene.append(node);
     });
 
     that.world.players = [that.world.player];
@@ -46,7 +48,7 @@ Renderer.prototype = {
     _(that.world.players).each(function (player) {
       var node = that.createPlayerRenderer();
       that.players.push(node);
-      that.canvas.append(node);
+      that.scene.append(node);
     });
   },
 
@@ -60,7 +62,7 @@ Renderer.prototype = {
       renderer: renderer
     });
 
-    that.canvas.append(renderer);
+    that.scene.append(renderer);
   },
 
   removeRemotePlayerById: function (id) {
@@ -94,7 +96,7 @@ Renderer.prototype = {
       renderer: renderer
     })
 
-    that.canvas.append(renderer);
+    that.scene.append(renderer);
   },
 
   explodeProjectile: function (projectile) {
@@ -140,13 +142,14 @@ Renderer.prototype = {
       renderer.animateTo('opacity', 0, 2000, 'sine');
     })
     renderer.after(2200, renderer.removeSelf)
-    that.canvas.append(renderer);
+    that.scene.append(renderer);
   },
 
   update: function (t, dt) {
     var that = this,
         projectiles = that.projectiles,
         remotePlayers = that.remotePlayers;
+
 
     for (var i = projectiles.length - 1; i >= 0; i--) {
       var projectile = projectiles[i];
@@ -160,6 +163,8 @@ Renderer.prototype = {
       player.rotation = that.world.player.angle;
     });
 
+
+
     for (var i = remotePlayers.length - 1; i >= 0; i--) {
       var remotePlayer = remotePlayers[i];
       remotePlayer.renderer.x = remotePlayer.object.x;
@@ -167,6 +172,9 @@ Renderer.prototype = {
       remotePlayer.renderer.rotation = remotePlayer.object.angle;
 
     };
+
+    that.scene.x = window.innerWidth / 2 - that.players[0].x;
+    that.scene.y = window.innerHeight / 2 - that.players[0].y;
   },
 
   createPlayerRenderer: function() {
