@@ -5,17 +5,21 @@ var Physics = function (options) {
 
   that.eventHandlers = {};
   that.world = options.world;
+  that.projectilesToRemove = [];
 };
 
 Physics.prototype = {
   update: function (t, dt) {
     var that = this;
-        projectiles = that.world.projectiles;
+        projectiles = that.world.projectiles,
+        planets = that.world.planets;
+
+    that.clearProjectiles();
 
     for (var i = projectiles.length - 1; i >= 0; i--) {
       var projectile = projectiles[i];
 
-      var planetsForce = _(that.world.planets).chain().map(function (planet){
+      var planetsForce = _(planets).chain().map(function (planet){
         return that.getForceVector(planet, projectile);
       }).reduce(function (f1, f2) {
         return {
@@ -28,6 +32,17 @@ Physics.prototype = {
       projectile.fy = projectile.fy + planetsForce.fy;
       projectile.x = projectile.x + projectile.fx / projectile.mass;
       projectile.y = projectile.y + projectile.fy / projectile.mass;
+
+      for (var j = planets.length - 1; j >= 0; j--) {
+        var planet = planets[j],
+            dx = planet.x - projectile.x,
+            dy = planet.y - projectile.y,
+            d = Math.sqrt(dx * dx + dy * dy);
+
+        if (d <= planet.radius) {
+          that.markToRemove(projectile);
+        }
+      };
     };
 
     that.world.player.x = that.world.player.x + -that.world.player.speed * Math.sin(that.world.player.angle);
@@ -52,11 +67,26 @@ Physics.prototype = {
     that.world.projectiles.push(projectile);
 
     setTimeout(function () {
-      that.world.projectiles.splice(0, 1);
-      that.trigger('projectile-explosion', projectile);
+      that.markToRemove(projectile);
     }, 20000);
 
     return projectile;
+  },
+
+  markToRemove: function(projectile) {
+    var that = this;
+    that.projectilesToRemove.push(projectile);
+  },
+
+  clearProjectiles: function () {
+    var that = this;
+    for (var i = that.projectilesToRemove.length - 1; i >= 0; i--) {
+      var projectile = that.projectilesToRemove[i];
+      if (that.world.projectiles.indexOf(projectile) === -1) { continue; }
+      that.world.projectiles.splice(that.world.projectiles.indexOf(projectile), 1);
+      that.trigger('projectile-explosion', projectile);
+    };
+    that.projectilesToRemove = [];
   },
 
   startMovingFoward: function () {
