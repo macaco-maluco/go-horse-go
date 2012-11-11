@@ -9,7 +9,14 @@ body {
   background:url('/images/universe.jpg')
 }
 
-p {
+#voting {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 9;
+}
+
+#score {
   position: fixed;
   bottom: 10px;
   right: 10px;
