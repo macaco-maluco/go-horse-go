@@ -16,6 +16,13 @@ body {
   z-index: 9;
 }
 
+#fb-like-plugin  {
+position: absolute;
+z-index: 9;
+bottom: 11px;
+right: 140px;
+}
+
 #score {
   position: fixed;
   bottom: 10px;
