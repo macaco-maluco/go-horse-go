@@ -155,8 +155,12 @@ Physics.prototype = {
   },
 
   updateRemotePlayerPosition: function (position) {
-    var that = this;
-    that.addRemotePlayer(position);
+    var that = this,
+        player = that.world.remotePlayers[position.id];
+
+    player.x = position.x;
+    player.y = position.y;
+    player.angle = position.angle;
   }
 
 };

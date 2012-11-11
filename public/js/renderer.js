@@ -164,6 +164,8 @@ Renderer.prototype = {
       var remotePlayer = remotePlayers[i];
       remotePlayer.renderer.x = remotePlayer.object.x;
       remotePlayer.renderer.y = remotePlayer.object.y;
+      remotePlayer.renderer.rotation = remotePlayer.object.angle;
+
     };
   },
 

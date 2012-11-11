@@ -9,6 +9,14 @@ var Remote = function(options) {
 
   that.socket.emit('player-connect', that.world.player);
 
+  that.socket.on('players', function (data) {
+    console.log('player-connect-massive', data);
+    for (var i = data.length - 1; i >= 0; i--) {
+      var player = data[i];
+      that.trigger('player-connect', player);
+    };
+  });
+
   that.socket.on('player-connect', function (data) {
     console.log('player-connect', data);
     that.trigger('player-connect', data);
