@@ -91,14 +91,17 @@
 
       that.input.on('start-moving-forward', function () {
         that.physics.startMovingFoward();
+        that.renderer.startMoving();
       });
 
       that.input.on('start-moving-backward', function () {
         that.physics.startMovingBackward();
+        that.renderer.startMoving();
       });
 
       that.input.on('stop-moving', function () {
         that.physics.stopMoving();
+        that.renderer.stopMoving();
       });
 
       that.input.on('start-turning-left', function () {

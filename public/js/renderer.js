@@ -57,6 +57,8 @@ Renderer.prototype = {
 
     that.sounds.newContender = new AudioNode('/snd/snd_spawn.mp3');
     that._canvas.append(that.sounds.newContender);
+    that.sounds.move = new AudioNode('/snd/snd_move.wav', {loop: true});
+    that._canvas.append(that.sounds.move);
 
     _(that.world.players).each(function (player) {
       var node = that.createPlayerRenderer();
@@ -210,6 +212,23 @@ Renderer.prototype = {
     var that = this;
 
     document.getElementById('score').innerHTML = score;
+  },
+
+  startMoving: function () {
+    var that = this;
+
+    if (!that.moving) {
+      that.sounds.move.play();
+      that.moving = true;
+    }
+  },
+
+  stopMoving: function () {
+    var that = this;
+
+    that.sounds.move.stop();
+    that.sounds.move.setPan(0);
+    that.moving = false;
   }
 };
 
