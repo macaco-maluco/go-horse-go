@@ -8,6 +8,7 @@
 
   Game.prototype = {
     boot: function () {
+      this.configureBrowserEnvironment();
       this.createWorld();
       this.createPhysics();
       this.createRenderer();
@@ -48,6 +49,13 @@
         remotePlayers: [],
 
         projectiles: []
+      };
+    },
+
+    configureBrowserEnvironment: function () {
+      var that = this;
+      window.onresize = function (event) {
+        that.renderer.resize(window.innerWidth, window.innerHeight);
       };
     },
 

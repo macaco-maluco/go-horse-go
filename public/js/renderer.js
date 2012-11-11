@@ -25,6 +25,16 @@ var Renderer = function (options) {
 };
 
 Renderer.prototype = {
+  resize: function (width, height) {
+    var canvas = document.getElementById('canvas-uuid-1');
+    canvas.width = width;
+    canvas.height = height;
+
+    var canvasContainer = document.getElementById('canvas-uuid-1').parentElement.style;
+    canvasContainer.width = width;
+    canvasContainer.height = height;
+  },
+
   createObjects: function () {
     var that = this;
 
