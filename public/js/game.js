@@ -29,12 +29,18 @@
             y: 750,
             radius: 42,
             mass: 1e15
+          },
+          {
+            x: 50,
+            y: 600,
+            radius: 100,
+            mass: 1e18
           }
         ],
 
         player: {
-          x: 20,
-          y: 20,
+          x: 500,
+          y: 500,
           speed: 0,
           turningSpeed: 0,
           angle: 0
