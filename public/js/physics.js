@@ -8,10 +8,9 @@ var Physics = function (options) {
 
 Physics.prototype = {
   update: function (t, dt) {
-    var that = this,
-        projectile = that.world.projectile;
+    var that = this;
 
-    if (projectile) {
+    _(that.world.projectiles).each(function (projectile) {
       var planetsForce = _(that.world.planets).chain().map(function (planet){
         return that.getForceVector(planet, projectile);
       }).reduce(function (f1, f2) {
@@ -24,7 +23,7 @@ Physics.prototype = {
       projectile.fy = projectile.fy + planetsForce.fy;
       projectile.x = projectile.x + projectile.fx / projectile.mass;
       projectile.y = projectile.y + projectile.fy / projectile.mass;
-    }
+    });
 
     that.world.player.x = that.world.player.x + -that.world.player.speed * Math.sin(that.world.player.angle);
     that.world.player.y = that.world.player.y + that.world.player.speed * Math.cos(that.world.player.angle);
@@ -42,22 +41,26 @@ Physics.prototype = {
     return { fx: force * dx / d, fy: force * dy / d };
   },
 
-  fireProjectile: function (x, y, fx, fy) {
+  fireProjectile: function (x, y, angle, force) {
     var that = this;
 
-    that.world.projectile = {
+    that.world.projectiles.push({
       x: x,
       y: y,
-      fx: fx || 0,
-      fy: fy || 0,
+      fx: force * -Math.sin(angle),
+      fy: force * Math.cos(angle),
       mass: 10
-    };
+    });
+
+    setTimeout(function() {
+      that.world.projectiles.splice(0, 1);
+    }, 5000);
   },
 
   startMovingFoward: function () {
     var that = this;
 
-    that.world.player.speed = 3;
+    that.world.player.speed = 2;
   },
 
   startMovingBackward: function () {

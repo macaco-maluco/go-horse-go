@@ -38,6 +38,10 @@
         that.trigger('stop-turning');
       }
     );
+
+    KeyboardJS.on('space', function () {
+      that.trigger('fire-projectile');
+    });
   }
 
   Input.prototype = {

@@ -38,7 +38,9 @@
           turningSpeed: 0,
           angle: 0
         },
-        remotePlayers: {}
+        remotePlayers: {},
+
+        projectiles: []
       };
     },
 
@@ -86,6 +88,11 @@
       that.input.on('stop-turning', function () {
         that.physics.stopTurning();
       });
+
+      that.input.on('fire-projectile', function () {
+        var p = that.world.player;
+        that.physics.fireProjectile(p.x, p.y, p.angle, 10);
+      });
     },
 
     createRemote: function() {
@@ -98,11 +105,6 @@
       that.physics.update(that.world);
       that.remote.sendPlayerPosition(that.world.player);
     },
-
-    fireProjectile: function (x, y, fx, fy) {
-      var that = this;
-      that.physics.fireProjectile(x, y, fx, fy);
-    }
   };
 
   ghg.Game = Game;
@@ -111,6 +113,5 @@
   window.onload = function() {
     var game = new ghg.Game();
     game.boot();
-    game.fireProjectile(300, 300, 0, 20);
   };
 }(window));

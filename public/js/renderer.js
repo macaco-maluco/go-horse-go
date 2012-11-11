@@ -40,8 +40,6 @@ Renderer.prototype = {
 
     that.world.players = [that.world.player];
 
-    var shipColor = 0;
-
     _(that.world.players).each(function (player) {
       var node = that.createPlayerRenderer();
       that.players.push(node);
@@ -52,20 +50,22 @@ Renderer.prototype = {
   update: function (t, dt) {
     var that = this;
 
-    if (that.world.projectile) {
-      var streak = new Circle(2,{
-        x:that.world.projectile.x,
-        y:that.world.projectile.y,
-        scale: 1,
-        compositeOperation: 'lighter',
-        fill: '#2C3CB3'
-      })
+    _(that.world.projectiles).each(function (projectile) {
+      if (projectile) {
+        var streak = new Circle(2,{
+          x:projectile.x,
+          y:projectile.y,
+          scale: 1,
+          compositeOperation: 'lighter',
+          fill: '#2C3CB3'
+        })
 
-      streak.animate('opacity', 1, 0, 2000, 'sqrt')
-      streak.animateToFactor('scale', 0.2, 2000, 'sqrt')
-      streak.after(2000, streak.removeSelf)
-      that.canvas.append(streak)
-    }
+        streak.animate('opacity', 1, 0, 2000, 'sqrt')
+        streak.animateToFactor('scale', 0.2, 2000, 'sqrt')
+        streak.after(2000, streak.removeSelf)
+        that.canvas.append(streak)
+      }
+    }); 
 
     _(that.players).each(function(player){
       player.x = that.world.player.x;
