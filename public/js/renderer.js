@@ -2,6 +2,9 @@
 
 var Renderer = function (options) {
   var that = this;
+
+  that.projectiles = [];
+
   that.remotePlayersRendererObjects = [];
   that.renderObjects = [];
   that.players = [];
@@ -47,24 +50,48 @@ Renderer.prototype = {
     });
   },
 
-  update: function (t, dt) {
-    var that = this,
-        projectiles = that.world.projectiles;
+  addProjectile: function (projectile) {
+    var that = this;
 
-    for (var i = projectiles.length - 1; i >= 0; i--) {
-      var projectile = projectiles[i];
-      var streak = new Circle(2,{
-        x:projectile.x,
-        y:projectile.y,
+    var renderer = new Circle(2,
+      {
+        x: projectile.x,
+        y: projectile.y,
         scale: 1,
         compositeOperation: 'lighter',
         fill: '#2C3CB3'
-      })
+      }
+    );
 
-      streak.animate('opacity', 1, 0, 100, 'sqrt')
-      streak.animateToFactor('scale', 0.2, 100, 'sqrt')
-      streak.after(100, streak.removeSelf)
-      that.canvas.append(streak)
+    that.projectiles.push({
+      object: projectile,
+      renderer: renderer
+    })
+
+    that.canvas.append(renderer);
+  },
+
+  explodeProjectile: function (projectile) {
+    var that = this,
+        projectiles = that.projectiles;
+
+    for (var i = projectiles.length - 1; i >= 0; i--) {
+      if (projectile == projectiles[i].object) {
+        projectiles[i].renderer.removeSelf();
+        projectiles.splice(i, 1);
+        return;
+      }
+    };
+  },
+
+  update: function (t, dt) {
+    var that = this,
+        projectiles = that.projectiles;
+
+    for (var i = projectiles.length - 1; i >= 0; i--) {
+      var projectile = projectiles[i];
+      projectile.renderer.x = projectile.object.x;
+      projectile.renderer.y = projectile.object.y;
     };
 
     _(that.players).each(function(player){

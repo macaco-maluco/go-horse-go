@@ -47,6 +47,9 @@
     createPhysics: function () {
       var that = this;
       that.physics = new ghg.Physics({ world: that.world });
+      that.physics.on('projectile-explosion', function (projectile) {
+        that.renderer.explodeProjectile(projectile);
+      })
     },
 
     createRenderer: function () {
@@ -102,6 +105,7 @@
 
         that.physics.fireProjectile(projectile);
         that.remote.sendProjectileShoot(projectile);
+        that.renderer.addProjectile(projectile);
       });
     },
 
@@ -110,6 +114,7 @@
       that.remote = new ghg.Remote({ world: that.world });
       that.remote.on('fire-projectile', function (projectile) {
         that.physics.fireProjectile(projectile);
+        that.renderer.addProjectile(projectile);
       });
     },
 

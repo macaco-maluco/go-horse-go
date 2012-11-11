@@ -3,6 +3,7 @@
 var Physics = function (options) {
   var that = this;
 
+  that.eventHandlers = {};
   that.world = options.world;
 };
 
@@ -50,8 +51,9 @@ Physics.prototype = {
 
     that.world.projectiles.push(projectile);
 
-    setTimeout(function() {
+    setTimeout(function () {
       that.world.projectiles.splice(0, 1);
+      that.trigger('projectile-explosion', projectile);
     }, 5000);
 
     return projectile;
@@ -91,6 +93,16 @@ Physics.prototype = {
     var that = this;
 
     that.world.player.turningSpeed = 0;
+  },
+
+  on: function (event, callback) {
+    var that = this;
+    that.eventHandlers[event] = callback;
+  },
+
+  trigger: function (event, data) {
+    var that = this;
+    that.eventHandlers[event] && that.eventHandlers[event](data);
   }
 
 };
