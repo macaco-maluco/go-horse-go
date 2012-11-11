@@ -48,24 +48,24 @@ Renderer.prototype = {
   },
 
   update: function (t, dt) {
-    var that = this;
+    var that = this,
+        projectiles = that.world.projectiles;
 
-    _(that.world.projectiles).each(function (projectile) {
-      if (projectile) {
-        var streak = new Circle(2,{
-          x:projectile.x,
-          y:projectile.y,
-          scale: 1,
-          compositeOperation: 'lighter',
-          fill: '#2C3CB3'
-        })
+    for (var i = projectiles.length - 1; i >= 0; i--) {
+      var projectile = projectiles[i];
+      var streak = new Circle(2,{
+        x:projectile.x,
+        y:projectile.y,
+        scale: 1,
+        compositeOperation: 'lighter',
+        fill: '#2C3CB3'
+      })
 
-        streak.animate('opacity', 1, 0, 2000, 'sqrt')
-        streak.animateToFactor('scale', 0.2, 2000, 'sqrt')
-        streak.after(2000, streak.removeSelf)
-        that.canvas.append(streak)
-      }
-    }); 
+      streak.animate('opacity', 1, 0, 100, 'sqrt')
+      streak.animateToFactor('scale', 0.2, 100, 'sqrt')
+      streak.after(100, streak.removeSelf)
+      that.canvas.append(streak)
+    };
 
     _(that.players).each(function(player){
       player.x = that.world.player.x;

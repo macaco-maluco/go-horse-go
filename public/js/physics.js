@@ -9,8 +9,11 @@ var Physics = function (options) {
 Physics.prototype = {
   update: function (t, dt) {
     var that = this;
+        projectiles = that.world.projectiles;
 
-    _(that.world.projectiles).each(function (projectile) {
+    for (var i = projectiles.length - 1; i >= 0; i--) {
+      var projectile = projectiles[i];
+
       var planetsForce = _(that.world.planets).chain().map(function (planet){
         return that.getForceVector(planet, projectile);
       }).reduce(function (f1, f2) {
@@ -19,11 +22,12 @@ Physics.prototype = {
           fy: (f1.fy + f2.fy)
         };
       }).value();
+
       projectile.fx = projectile.fx + planetsForce.fx;
       projectile.fy = projectile.fy + planetsForce.fy;
       projectile.x = projectile.x + projectile.fx / projectile.mass;
       projectile.y = projectile.y + projectile.fy / projectile.mass;
-    });
+    };
 
     that.world.player.x = that.world.player.x + -that.world.player.speed * Math.sin(that.world.player.angle);
     that.world.player.y = that.world.player.y + that.world.player.speed * Math.cos(that.world.player.angle);
