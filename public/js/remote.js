@@ -35,6 +35,7 @@ Remote.prototype = {
     var that = this;
     that.eventHandlers[event] = callback;
   },
+
   trigger: function (event, data) {
     var that = this;
     that.eventHandlers[event] && that.eventHandlers[event](data);
