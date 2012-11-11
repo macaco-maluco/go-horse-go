@@ -11,3 +11,7 @@ http://en.wikipedia.org/wiki/File:Planet_HD_99109_b.png
 
 #Spaceship
 http://www.iconfinder.com/icondetails/18075/128/fighter_spaceship_icon
+
+#Cake.js
+Cake.js: https://code.google.com/p/cakejs/
+Missile Fleet: http://glimr.rubyforge.org/cake/missile_fleet.html
