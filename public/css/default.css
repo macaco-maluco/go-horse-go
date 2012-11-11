@@ -60,6 +60,7 @@ h2 {
   width: 400px;
   border: 1px solid #666666;
   padding: 15px;
+  padding-bottom: 0;
   color: black;
   opacity: 0.1;
 }
@@ -71,6 +72,18 @@ h2 {
 
 #about:hover {
   opacity: 1;
+}
+
+#about * {
+  display: none;
+}
+
+#about:hover * {
+  display: block;
+}
+
+#about h1 {
+  display: block;
 }
 
 ul {
