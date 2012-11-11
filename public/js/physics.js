@@ -139,6 +139,24 @@ Physics.prototype = {
   trigger: function (event, data) {
     var that = this;
     that.eventHandlers[event] && that.eventHandlers[event](data);
+  },
+
+  addRemotePlayer: function (player) {
+    var that = this;
+
+    that.world.remotePlayers[player.id] = player;
+  },
+
+  removeRemotePlayerById: function (id) {
+    var that = this,
+        remotePlayers = that.world.remotePlayers;
+
+    delete remotePlayers[id];
+  },
+
+  updateRemotePlayerPosition: function (position) {
+    var that = this;
+    that.addRemotePlayer(position);
   }
 
 };

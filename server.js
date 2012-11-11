@@ -26,4 +26,17 @@ io.sockets.on('connection', function (socket) {
   socket.on('fire-projectile', function (data) {
     socket.broadcast.emit('fire-projectile', data);
   });
+
+  socket.on('player-connect', function (data) {
+    socket.get('id', function (error, id) {
+      data.id = id;
+      socket.broadcast.emit('player-connect', data);
+    })
+  });
+
+  socket.on('disconnect', function () {
+    socket.get('id', function (error, id) {
+      socket.broadcast.emit('player-disconnect', id);
+    })
+  });
 });

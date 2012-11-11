@@ -117,6 +117,20 @@
         that.physics.fireProjectile(projectile);
         that.renderer.addProjectile(projectile);
       });
+
+      that.remote.on('player-connect', function (player) {
+        that.physics.addRemotePlayer(player);
+        that.renderer.addRemotePlayer(player);
+      });
+
+      that.remote.on('player-disconnect', function (id) {
+        that.physics.removeRemotePlayerById(id);
+        that.renderer.removeRemotePlayerById(id);
+      });
+
+      that.remote.on('player-position', function (position) {
+        that.physics.updateRemotePlayerPosition(position);
+      })
     },
 
     gameLoop: function (t, dt) {

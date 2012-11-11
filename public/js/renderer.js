@@ -5,7 +5,7 @@ var Renderer = function (options) {
 
   that.projectiles = [];
 
-  that.remotePlayersRendererObjects = [];
+  that.remotePlayers = [];
   that.renderObjects = [];
   that.players = [];
   that.onRender = options.onRender;
@@ -48,6 +48,32 @@ Renderer.prototype = {
       that.players.push(node);
       that.canvas.append(node);
     });
+  },
+
+  addRemotePlayer: function (remotePlayer) {
+    var that = this;
+
+    var renderer = that.createPlayerRenderer();
+
+    that.remotePlayers.push({
+      object: remotePlayer,
+      renderer: renderer
+    });
+
+    that.canvas.append(renderer);
+  },
+
+  removeRemotePlayerById: function (id) {
+    var that = this,
+        remotePlayers = that.remotePlayers;
+
+    for (var i = remotePlayers.length - 1; i >= 0; i--) {
+      if (id === remotePlayers[i].object.id) {
+        remotePlayers[i].renderer.removeSelf();
+        remotePlayers.splice(i, 1);
+        return;
+      }
+    };
   },
 
   addProjectile: function (projectile) {
@@ -119,7 +145,8 @@ Renderer.prototype = {
 
   update: function (t, dt) {
     var that = this,
-        projectiles = that.projectiles;
+        projectiles = that.projectiles,
+        remotePlayers = that.remotePlayers;
 
     for (var i = projectiles.length - 1; i >= 0; i--) {
       var projectile = projectiles[i];
@@ -133,29 +160,11 @@ Renderer.prototype = {
       player.rotation = that.world.player.angle;
     });
 
-    _(that.world.remotePlayers).each(function(player){
-      var renderer = that.getRemotePlayerRenderer(player.id);
-
-      renderer.x = player.x;
-      renderer.y = player.y;
-      renderer.rotation = player.angle;
-    });
-  },
-
-  getRemotePlayerRenderer: function (playerId) {
-    var that = this;
-
-    var renderer = that.remotePlayersRendererObjects[playerId];
-
-    if(!renderer) {
-
-      renderer = that.createPlayerRenderer();
-
-      that.canvas.append(renderer);
-      that.remotePlayersRendererObjects[playerId] = renderer;
-    }
-
-    return renderer;
+    for (var i = remotePlayers.length - 1; i >= 0; i--) {
+      var remotePlayer = remotePlayers[i];
+      remotePlayer.renderer.x = remotePlayer.object.x;
+      remotePlayer.renderer.y = remotePlayer.object.y;
+    };
   },
 
   createPlayerRenderer: function() {
