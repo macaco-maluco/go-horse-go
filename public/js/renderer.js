@@ -52,26 +52,19 @@ Renderer.prototype = {
   update: function (t, dt) {
     var that = this;
 
-    if (that.world.projectile && !that.projectilesRenderObject) {
-      var projectile = that.world.projectile;
+    if (that.world.projectile) {
+      var streak = new Circle(2,{
+        x:that.world.projectile.x,
+        y:that.world.projectile.y,
+        scale: 1,
+        compositeOperation: 'lighter',
+        fill: '#2C3CB3'
+      })
 
-      that.projectilesRenderObject = new Circle(2,
-        {
-          id: '435436544',
-          x: projectile.x,
-          y: projectile.y,
-          stroke: 'red',
-          strokeWidth: 2,
-          endAngle: Math.PI*2
-        }
-      );
-
-      that.canvas.append(that.projectilesRenderObject);
-    };
-
-    if (that.projectilesRenderObject) {
-      that.projectilesRenderObject.x = that.world.projectile.x;
-      that.projectilesRenderObject.y = that.world.projectile.y;
+      streak.animate('opacity', 1, 0, 2000, 'sqrt')
+      streak.animateToFactor('scale', 0.2, 2000, 'sqrt')
+      streak.after(2000, streak.removeSelf)
+      that.canvas.append(streak)
     }
 
     _(that.players).each(function(player){
