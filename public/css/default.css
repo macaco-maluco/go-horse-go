@@ -86,6 +86,11 @@ h2 {
   display: block;
 }
 
+#attributions {
+  text-align: right;
+  margin-bottom: 15px;
+}
+
 ul {
   margin: 0px;
   padding: 0px;
