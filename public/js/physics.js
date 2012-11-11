@@ -41,20 +41,16 @@ Physics.prototype = {
     return { fx: force * dx / d, fy: force * dy / d };
   },
 
-  fireProjectile: function (x, y, angle, force) {
+  fireProjectile: function (projectile) {
     var that = this;
 
-    that.world.projectiles.push({
-      x: x,
-      y: y,
-      fx: force * -Math.sin(angle),
-      fy: force * Math.cos(angle),
-      mass: 10
-    });
+    that.world.projectiles.push(projectile);
 
     setTimeout(function() {
       that.world.projectiles.splice(0, 1);
     }, 5000);
+
+    return projectile;
   },
 
   startMovingFoward: function () {

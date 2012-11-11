@@ -91,13 +91,26 @@
 
       that.input.on('fire-projectile', function () {
         var p = that.world.player;
-        that.physics.fireProjectile(p.x, p.y, p.angle, 10);
+        var force = 10;
+        var projectile = {
+          x: p.x,
+          y: p.y,
+          fx: force * -Math.sin(p.angle),
+          fy: force * Math.cos(p.angle),
+          mass: 10
+        };
+
+        that.physics.fireProjectile(projectile);
+        that.remote.sendProjectileShoot(projectile);
       });
     },
 
     createRemote: function() {
       var that = this;
       that.remote = new ghg.Remote({ world: that.world });
+      that.remote.on('fire-projectile', function (projectile) {
+        that.physics.fireProjectile(projectile);
+      });
     },
 
     gameLoop: function (t, dt) {

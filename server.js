@@ -22,4 +22,8 @@ io.sockets.on('connection', function (socket) {
       socket.broadcast.emit('position', data);
     })
   });
+
+  socket.on('fire-projectile', function (data) {
+    socket.broadcast.emit('fire-projectile', data);
+  });
 });
