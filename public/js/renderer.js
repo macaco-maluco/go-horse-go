@@ -75,6 +75,8 @@ Renderer.prototype = {
     var that = this,
         projectiles = that.projectiles;
 
+    that.drawExplosion(projectile.x, projectile.y);
+
     for (var i = projectiles.length - 1; i >= 0; i--) {
       if (projectile === projectiles[i].object) {
         projectiles[i].renderer.removeSelf();
@@ -82,6 +84,37 @@ Renderer.prototype = {
         return;
       }
     };
+  },
+
+  drawExplosion: function (x, y) {
+    var that = this;
+
+    var glow = new Gradient({
+      type : 'radial',
+      endRadius : 200,
+      colorStops : [
+        [ 0.0, "rgba(190,105,90,1)" ],
+        [ 0.25, "rgba(5,30,80,0.4)" ],
+        [ 1, "rgba(10,0,40,0)" ]
+      ]
+    });
+
+    var renderer = new Circle(200,
+      {
+        x: x,
+        y: y,
+        scale: 1,
+        compositeOperation: 'lighter',
+        fill: glow
+      }
+    );
+
+    renderer.animateTo('opacity', 1, 100, 'linear');
+    renderer.after(200, function () {
+      renderer.animateTo('opacity', 0, 2000, 'sine');
+    })
+    renderer.after(2200, renderer.removeSelf)
+    that.canvas.append(renderer);
   },
 
   update: function (t, dt) {
