@@ -43,17 +43,7 @@ Renderer.prototype = {
     var shipColor = 0;
 
     _(that.world.players).each(function (player) {
-      var img = new Image();
-      img.src = 'images/ship' + ((that.shipColor++ % 4)+1) + '.png';
-      var node = new ImageNode(img, {
-        dWidth: 40,
-        dHeight: 40,
-        dX: -20,
-        dY: -20,
-        x: player.x,
-        y: player.y
-      });
-
+      var node = that.createPlayerRenderer();
       that.players.push(node);
       that.canvas.append(node);
     });
@@ -106,21 +96,29 @@ Renderer.prototype = {
 
     if(!renderer) {
 
-      var img = new Image();
-      img.src = 'images/ship' + ((that.shipColor++ % 4)+1) + '.png';
-      renderer = new ImageNode(img, {
-        dWidth: 40,
-        dHeight: 40,
-        dX: -20,
-        dY: -20,
-        x: 0,
-        y: 0
-      });
-
+      renderer = that.createPlayerRenderer();
 
       that.canvas.append(renderer);
       that.remotePlayersRendererObjects[playerId] = renderer;
     }
+
+    return renderer;
+  },
+
+  createPlayerRenderer: function() {
+    var that = this;
+
+    var img = new Image();
+
+    img.src = 'images/ship' + ((that.shipColor++ % 4)+1) + '.png';
+    var renderer = new ImageNode(img, {
+      dWidth: 40,
+      dHeight: 40,
+      dX: -20,
+      dY: -20,
+      x: 0,
+      y: 0
+    });
 
     return renderer;
   }
