@@ -43,6 +43,12 @@ Physics.prototype = {
           that.markToRemove(projectile);
         }
       };
+
+      var player = that.world.player;
+      if (projectile.x >= player.x - 20 && projectile.x <= player.x + 20
+          && projectile.y >= player.y - 20 && projectile.y <= player.y + 20) {
+        that.markToRemove(projectile);
+      }
     };
 
     that.world.player.x = that.world.player.x + -that.world.player.speed * Math.sin(that.world.player.angle);

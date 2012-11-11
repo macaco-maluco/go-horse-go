@@ -94,10 +94,11 @@
 
       that.input.on('fire-projectile', function () {
         var p = that.world.player;
-        var force = 10;
+        var force = 30;
         var projectile = {
-          x: p.x,
-          y: p.y,
+
+          x: p.x + (30 * -Math.sin(p.angle)),
+          y: p.y + (30 * Math.cos(p.angle)),
           fx: force * -Math.sin(p.angle),
           fy: force * Math.cos(p.angle),
           mass: 10
