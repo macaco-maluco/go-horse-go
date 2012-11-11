@@ -57,7 +57,7 @@ Renderer.prototype = {
 
     that.sounds.newContender = new AudioNode('/snd/snd_spawn.mp3');
     that._canvas.append(that.sounds.newContender);
-    that.sounds.move = new AudioNode('/snd/snd_move.wav', {loop: true});
+    that.sounds.move = new AudioNode('/snd/snd_move.mp3', {loop: true});
     that._canvas.append(that.sounds.move);
 
     _(that.world.players).each(function (player) {

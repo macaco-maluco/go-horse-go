@@ -2,3 +2,4 @@ node_modules
 
 /public/.DS_Store
 /public/images/.DS_Store
+/public/snd/.DS_Store
