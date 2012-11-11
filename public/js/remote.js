@@ -26,6 +26,7 @@ var Remote = function(options) {
     that.trigger('player-position', data);
   });
   that.socket.on('fire-projectile', function (data) {
+    data.localPlayer = false;
     that.trigger('fire-projectile', data);
   });
 

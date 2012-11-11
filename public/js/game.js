@@ -2,7 +2,8 @@
   var ghg = {};
 
   var Game = function () {
-
+    var that = this;
+    that.score = 0;
   }
 
   Game.prototype = {
@@ -50,6 +51,12 @@
       that.physics.on('projectile-explosion', function (projectile) {
         that.renderer.explodeProjectile(projectile);
       })
+
+      that.physics.on('hit-remote-player', function (projectile) {
+        that.score = that.score + 91817343;
+        that.renderer.updatePlayerScore(that.score);
+      })
+
     },
 
     createRenderer: function () {
@@ -101,7 +108,8 @@
           y: p.y + (30 * Math.cos(p.angle)),
           fx: force * -Math.sin(p.angle),
           fy: force * Math.cos(p.angle),
-          mass: 10
+          mass: 10,
+          localPlayer: true
         };
 
         that.physics.fireProjectile(projectile);

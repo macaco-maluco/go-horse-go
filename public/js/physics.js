@@ -55,6 +55,10 @@ Physics.prototype = {
         if (projectile.x >= player.x - 20 && projectile.x <= player.x + 20
             && projectile.y >= player.y - 20 && projectile.y <= player.y + 20) {
           that.markToRemove(projectile);
+
+          if(projectile.localPlayer) {
+            that.trigger('hit-remote-player', projectile);
+          }
         }
       };
 

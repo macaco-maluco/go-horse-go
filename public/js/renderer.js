@@ -193,6 +193,12 @@ Renderer.prototype = {
     });
 
     return renderer;
+  },
+
+  updatePlayerScore: function (score) {
+    var that = this;
+
+    document.getElementById('score').innerHTML = score;
   }
 };
 
