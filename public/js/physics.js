@@ -54,7 +54,7 @@ Physics.prototype = {
     setTimeout(function () {
       that.world.projectiles.splice(0, 1);
       that.trigger('projectile-explosion', projectile);
-    }, 5000);
+    }, 20000);
 
     return projectile;
   },
