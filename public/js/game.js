@@ -166,7 +166,15 @@
   window.ghg = ghg;
 
   window.onload = function() {
-    var game = new ghg.Game();
-    game.boot();
+    soundManager.setup({
+      url: '/swf/',
+      debugMode: false,
+      flashVersion: 9, // optional: shiny features (default = 8)
+      useFlashBlock: false, // optionally, enable when you're ready to dive in
+      onready: function() {
+        var game = new ghg.Game();
+        game.boot();
+      }
+    });
   };
 }(window));

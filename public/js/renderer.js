@@ -2,7 +2,7 @@
 
 var Renderer = function (options) {
   var that = this;
-
+  that.sounds = {};
   that.projectiles = [];
 
   that.remotePlayers = [];
@@ -20,7 +20,8 @@ var Renderer = function (options) {
   });
   that.scene = new CanvasNode()
   that._canvas.append(that.scene);
-
+  var bg_snd = new AudioNode('/snd/snd_bg.mp3', { autoPlay: true, loop: true });
+  that._canvas.append(bg_snd);
   that.createObjects();
 };
 
@@ -48,12 +49,14 @@ Renderer.prototype = {
         y: planet.y - planet.radius
       });
 
-
       that.renderObjects.push(node);
       that.scene.append(node);
     });
 
     that.world.players = [that.world.player];
+
+    that.sounds.newContender = new AudioNode('/snd/snd_spawn.mp3');
+    that._canvas.append(that.sounds.newContender);
 
     _(that.world.players).each(function (player) {
       var node = that.createPlayerRenderer();
@@ -71,7 +74,7 @@ Renderer.prototype = {
       object: remotePlayer,
       renderer: renderer
     });
-
+    that.sounds.newContender.play();
     that.scene.append(renderer);
   },
 
@@ -172,8 +175,6 @@ Renderer.prototype = {
       player.y = that.world.player.y;
       player.rotation = that.world.player.angle;
     });
-
-
 
     for (var i = remotePlayers.length - 1; i >= 0; i--) {
       var remotePlayer = remotePlayers[i];
