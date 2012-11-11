@@ -76,7 +76,7 @@ Renderer.prototype = {
         projectiles = that.projectiles;
 
     for (var i = projectiles.length - 1; i >= 0; i--) {
-      if (projectile == projectiles[i].object) {
+      if (projectile === projectiles[i].object) {
         projectiles[i].renderer.removeSelf();
         projectiles.splice(i, 1);
         return;
