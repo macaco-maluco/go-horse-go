@@ -38,7 +38,7 @@
           turningSpeed: 0,
           angle: 0
         },
-        remotePlayers: {},
+        remotePlayers: [],
 
         projectiles: []
       };

@@ -49,6 +49,15 @@ Physics.prototype = {
           && projectile.y >= player.y - 20 && projectile.y <= player.y + 20) {
         that.markToRemove(projectile);
       }
+
+      for (var k = that.world.remotePlayers.length - 1; k >= 0; k--) {
+        var player = that.world.remotePlayers[k].player;
+        if (projectile.x >= player.x - 20 && projectile.x <= player.x + 20
+            && projectile.y >= player.y - 20 && projectile.y <= player.y + 20) {
+          that.markToRemove(projectile);
+        }
+      };
+
     };
 
     that.world.player.x = that.world.player.x + -that.world.player.speed * Math.sin(that.world.player.angle);
@@ -143,26 +152,35 @@ Physics.prototype = {
 
   addRemotePlayer: function (player) {
     var that = this;
-
-    that.world.remotePlayers[player.id] = player;
+    that.world.remotePlayers.push({id : player.id, player : player});
   },
 
   removeRemotePlayerById: function (id) {
     var that = this,
         remotePlayers = that.world.remotePlayers;
 
-    delete remotePlayers[id];
+    for (var i = remotePlayers.length - 1; i >= 0; i--) {
+      if (remotePlayers[i].id === id) {
+        remotePlayers.splice(i, 1);
+        return;
+      }
+    };
   },
 
   updateRemotePlayerPosition: function (position) {
     var that = this,
-        player = that.world.remotePlayers[position.id];
+        remotePlayers = that.world.remotePlayers;
 
-    player.x = position.x;
-    player.y = position.y;
-    player.angle = position.angle;
+    for (var i = remotePlayers.length - 1; i >= 0; i--) {
+      if (remotePlayers[i].id === position.id) {
+        var player = remotePlayers[i].player;
+        player.x = position.x;
+        player.y = position.y;
+        player.angle = position.angle;
+        return;
+      }
+    };
   }
-
 };
 ghg.Physics = Physics;
 
