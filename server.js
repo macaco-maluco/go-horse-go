@@ -19,7 +19,7 @@ io.sockets.on('connection', function (socket) {
   socket.on('position', function (data) {
     socket.get('id', function (error, id) {
       data.id = id;
-      socket.broadcast.emit('position', data);
+      socket.volatile.broadcast.emit('position', data);
     })
   });
 
