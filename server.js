@@ -8,7 +8,7 @@ var express = require('express')
   , io = socketio.listen(server)
   , i = 0;
 
-server.listen(8000);
+server.listen(80);
 
 var players = [];
 
